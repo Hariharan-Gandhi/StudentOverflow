@@ -1,13 +1,20 @@
 {
-	"name": "NodejsStarterApp",
-	"version": "0.0.1",
-	"description": "A sample nodejs app for Bluemix",
-	"scripts": {
-		"start": "node app.js"
-	},
-	"dependencies": {
-		"express": "4.12.x",
-		"cfenv": "1.0.x"
-	},
-	"repository": {}
+    "name": "StudentOverflow",
+    "version": "0.0.1",
+    "description": "App to ease Student life",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "express": "4.12.x",
+        "cfenv": "1.0.x",
+        "async": "0.9.x",
+        "cfenv": "^1.0.0",
+        "hapi": "^8.4.0",
+        "request": "2.51.x",
+        "underscore": "1.7.x",
+        "json-mask": "*",
+        "boom": "0.4.x"
+    },
+    "repository": {}
 }
