@@ -8,6 +8,9 @@ body,html {
 	margin: 0 auto;
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 	color: #ffffff;
+    background-image:url('../images/SO.jpg');
+    background-repeat:no-repeat;
+    background-size:100% 100%; 
 }
 
 a {
