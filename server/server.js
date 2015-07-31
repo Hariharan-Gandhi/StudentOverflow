@@ -7,6 +7,10 @@ var cfenv = require("cfenv");
 var Boom = require('boom');
 var fs = require('fs');
 
+var request = require("request");
+
+
+
 
 // This application uses express as it's web server
 // for more info, see: http://expressjs.com
@@ -91,6 +95,8 @@ var db;
 
 var cloudant;
 
+var currentStatus, overallStatus;
+
 var dbCredentials = {
     dbName: 'cloud_db'
 };
@@ -114,12 +120,6 @@ function initDBConnection() {
 
     console.log('VCAP Services: ' + JSON.stringify(dbCredentials));
 
-    /*dbCredentials.host = "ffe37731-0505-4683-96a8-87d02a33e03e-bluemix.cloudant.com";
-    dbCredentials.port = 443;
-    dbCredentials.user = "ffe37731-0505-4683-96a8-87d02a33e03e-bluemix";
-    dbCredentials.password = "c7003d0b156d9c4ce856c4e6b4427f3b576c7ea6229235f0369ada1ed47b159c";
-    dbCredentials.url = "https://ffe37731-0505-4683-96a8-87d02a33e03e-bluemix:c7003d0b156d9c4ce856c4e6b4427f3b576c7ea6229235f0369ada1ed47b159c@ffe37731-0505-4683-96a8-87d02a33e03e-bluemix.cloudant.com";*/
-
     cloudant = require('cloudant')(dbCredentials.url);
 
     //check if DB exists if not create
@@ -135,9 +135,9 @@ function initDBConnection() {
 
 }
 
-function insertIntoCloudantSample(uid, locationid, lon, lat, reply) {
+function insertIntoCloudant(uid, locationid, lon, lat, reply) {
 
-    console.log('Cloundant insert: ' + uid + ': '+locationid);
+    console.log('Cloundant insert: ' + uid + ': ' + locationid);
 
     db.get(uid, {
         revs_info: true
@@ -173,23 +173,71 @@ function insertIntoCloudantSample(uid, locationid, lon, lat, reply) {
 }
 
 
-//https://74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix.cloudant.com/cloud_db/_design/map_reduce/_view/count_by_location
-
-
 // Route calls to insert in cloundant
 server.route({
     method: "POST",
     path: "/res/updateUserLocation/{uid},{locationid},{lon},{lat}",
-    handler: insertIntoCloudant
+    handler: insertHandler
 });
 
-function insertIntoCloudant(request, reply) {
+function insertHandler(request, reply) {
 
     var uid = request.params.uid,
         locationid = request.params.locationid,
         lon = request.params.lon,
         lat = request.params.lat;
 
-    insertIntoCloudantSample(uid, locationid, lon, lat, reply);
+    insertIntoCloudant(uid, locationid, lon, lat, reply);
 
 }
+
+
+// Route calls to insert in cloundant
+server.route({
+    method: "GET",
+    path: "/res/requestCurrentInformation",
+    handler: getCurrentInformation
+});
+
+
+function getCurrentInformation(req, reply) {
+
+    var url = dbCredentials.url;
+
+    request(url + '/cloud_db/_design/map_reduce/_view/count_by_location?group_level=1', function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            console.log(body);
+            
+            currentStatus = JSON.parse(body);
+                      
+            reply(currentStatus);
+                        
+        } else {
+            console.log("Error in retreiving current status: response.statusCode: " + response.statusCode);
+        }
+    });
+}
+
+// Route calls to insert in cloundant
+server.route({
+    method: "GET",
+    path: "/res/requestOverallInformation",
+    handler: getOverallInformation
+});
+
+function getOverallInformation(request, reply) {
+
+    db.get("000", {
+        revs_info: true
+    }, function(err, doc) {
+        if (!err) {
+            console.log('Fetched details: ' + doc.loc_1.name);
+            reply(doc);
+        } else {
+            console.log('Error in fetching the location base: ' + err);
+        }
+    });
+}
+
+//https://74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix.cloudant.com/cloud_db/_design/map_reduce/_view/count_by_location
+//https://74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix.cloudant.com/cloud_db/_design/map_reduce/_view/count_by_location?group_level=1
