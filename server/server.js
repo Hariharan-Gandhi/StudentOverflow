@@ -80,7 +80,7 @@ server.route({
 console.log("Student Overload Server Starting...");
 
 server.start(function() {
-    console.log("Student Overload Server Started!!")
+    console.log("Student Overload Server Started!! --- " + appEnv.url);
 });
 
 console.log("Couldant Services: " + JSON.stringify(appEnv.services.cloudantNoSQLDB));
@@ -92,7 +92,7 @@ var db;
 var cloudant;
 
 var dbCredentials = {
-    dbName: 'bibbledb'
+    dbName: 'cloud_db'
 };
 
 initDBConnection();
@@ -135,36 +135,61 @@ function initDBConnection() {
 
 }
 
-function insertIntoCloudant(uid, locationid, lon, lat, reply) {
+function insertIntoCloudantSample(uid, locationid, lon, lat, reply) {
 
-    db.insert({
-        uid: uid,
-        locationid: locationid,
-        lon: lon,
-        lat: lat
-    }, '', function(err, doc) {
-        if (err) {
-            console.log(err);
-            reply("Error in saving the document: " + err);
+    console.log('Cloundant insert: ' + uid + ': '+locationid);
+
+    db.get(uid, {
+        revs_info: true
+    }, function(err, doc) {
+        if (!err) {
+            console.log('Document already exists: ' + doc.locationid);
+            doc.locationid = locationid;
+            db.insert(doc, doc.id, function(err, doc) {
+                if (err) {
+                    console.log('Error inserting data\n' + err);
+                    return 500;
+                }
+                return 200;
+            });
+
         } else {
-            reply('Document saved successfully for : ' + uid);
+            console.log('Document doesnot exists: ' + err);
+            db.insert({
+                locationid: locationid,
+                lon: lon,
+                lat: lat
+            }, uid, function(err, doc) {
+                if (err) {
+                    console.log(err);
+                    reply("Error in saving the document: " + err);
+                } else {
+                    reply('Document saved successfully for : ' + uid);
+                    console.log('Document saved successfully for : ' + uid);
+                }
+            });
         }
     });
 }
 
+
+//https://74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix.cloudant.com/cloud_db/_design/map_reduce/_view/count_by_location
+
+
 // Route calls to insert in cloundant
 server.route({
     method: "POST",
-    path: "/res/updateUserLocation/{uid}/{locationid}/{lon}/{lat}",
+    path: "/res/updateUserLocation/{uid},{locationid},{lon},{lat}",
     handler: insertIntoCloudant
 });
 
 function insertIntoCloudant(request, reply) {
-    var uid = request.param.uid,
-        locationid = request.param.uid,
-        lon = request.param.uid,
-        lat = request.param.uid;
 
-    insertIntoCloudant(uid, locationid, lon, lat, reply);
+    var uid = request.params.uid,
+        locationid = request.params.locationid,
+        lon = request.params.lon,
+        lat = request.params.lat;
+
+    insertIntoCloudantSample(uid, locationid, lon, lat, reply);
 
 }
