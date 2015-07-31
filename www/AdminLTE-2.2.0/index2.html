@@ -584,7 +584,7 @@
 		}
 		
 		function fetch_current_for_location(){
-			d3.json(URL_CURRENT_INFO, current_loaded(error,json));
+			d3.json(URL_CURRENT_INFO, current_loaded);
 		}
 
 		function timer_updater() {
@@ -592,7 +592,7 @@
 		}
 
 		/* Load the capacities*/
-		d3.json(URL_OVERALL_INFO, capacities_loaded(error, json));
+		d3.json(URL_OVERALL_INFO, capacities_loaded);
 
 	</script>
 </body>
