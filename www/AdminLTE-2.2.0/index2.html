@@ -580,7 +580,7 @@
 					console.log("Current capacity: " + current_capacity);
 				}
 			}
-			var percentage = Math.min(Math.ceil(current_capacity / capacity_loc_2), 100);
+			var percentage = Math.min(Math.ceil(100*current_capacity / capacity_loc_2), 100);
 			libCapacity.update(percentage);
 		}
 		
