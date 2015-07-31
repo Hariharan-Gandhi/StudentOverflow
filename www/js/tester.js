@@ -32,8 +32,8 @@ function Tester() {
 		var latitude = getRandomArbitrary(min_latitude, max_latitude);
 		var locationid = getRandomInt(loc_min, loc_max);
 
-		var url_to_call = url + "/" + uid + "/" + locationid + "/" + longitude
-				+ "/" + latitude;
+		var url_to_call = url + "/" + uid + "," + locationid + "," + longitude
+				+ "," + latitude;
 		console.log("Calling: " + url_to_call);
 		$.ajax({
 			method : "POST",
