@@ -22,7 +22,7 @@ function Tester() {
 		console.log("Firing random user event");
 		var uid = "12345";
 
-		/* Push uid to container */
+		/* Push uid to container*/
 		uids.push(uid);
 		fireEvent(uid);
 	}
