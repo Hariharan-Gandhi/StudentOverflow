@@ -1,0 +1,7 @@
+# USE THIS FILE FOR DEFINING COMMON INTERFACES SO EVERYBODY
+# CAN STICK TO IT
+
+
+# --- UPDATING THE USER LOCATION ---
+We should use this for updating the database (this is sample data):
+http://studentoverflow.mybluemix.net/res/updateUserLocation?uid=123&locationid=1&longitude=5.232323&latitude=1.234567
