@@ -1,14 +1,17 @@
 {
-  "cloudantNoSQLDB" : [ {
-    "name" : "Cloudant_SO",
-    "label" : "cloudantNoSQLDB",
-    "plan" : "Shared",
-    "credentials" : {
-      "username" : "74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix",
-      "password" : "2e2baf7261e06b1c84aa7c1339724b78bb2f51b5feb25aeee5af44523c3fa1e6",
-      "host" : "74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix.cloudant.com",
-      "port" : 443,
-      "url" : "https://74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix:2e2baf7261e06b1c84aa7c1339724b78bb2f51b5feb25aeee5af44523c3fa1e6@74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix.cloudant.com"
+    "services":
+        {
+            "cloudantNoSQLDB": [{
+                "name": "Cloudant_SO",
+                "label": "cloudantNoSQLDB",
+                "plan": "Shared",
+                "credentials": {
+                    "username": "74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix",
+                    "password": "2e2baf7261e06b1c84aa7c1339724b78bb2f51b5feb25aeee5af44523c3fa1e6",
+                    "host": "74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix.cloudant.com",
+                    "port": 443,
+                    "url": "https://74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix:2e2baf7261e06b1c84aa7c1339724b78bb2f51b5feb25aeee5af44523c3fa1e6@74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix.cloudant.com"
+                }
+            }]
+        }
     }
-  } ]
-}
