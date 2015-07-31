@@ -12,9 +12,8 @@ function Tester() {
 	loc_min = 0;
 	loc_max = 5;
 
-	
 	/* The url which listens to requests */
-	var url = "http://studentoverflow.mybluemix.net/res/updateUserLocation";
+	var url = "/res/updateUserLocation";
 
 	/* Define a container for generated uid's */
 	var uids = [];
@@ -33,15 +32,16 @@ function Tester() {
 		var latitude = getRandomArbitrary(min_latitude, max_latitude);
 		var locationid = getRandomInt(loc_min, loc_max);
 
-		var url_to_call = url + "/" + uid + "/" + locationid
-				+ "/" + longitude + "/" + latitude;
+		var url_to_call = url + "/" + uid + "/" + locationid + "/" + longitude
+				+ "/" + latitude;
 		console.log("Calling: " + url_to_call);
 		$.ajax({
-			method: "POST",
+			method : "POST",
 			url : url_to_call,
 			context : document.body,
 			success : function() {
 				$(this).addClass("done");
+				console.log("Ajax call was successful.");
 			}
 		});
 	}
