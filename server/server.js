@@ -1,50 +1,22 @@
 //------------------------------------------------------------------------------
-// Student Overflow App with NodeJS on IBM Bluemix
+// Student Overflow(Bibcast) App with NodeJS on IBM Bluemix
 //------------------------------------------------------------------------------
 
+// This application uses HAPI as it's web server
+// for more info, see: http://http://hapijs.com/
 var hapi = require("hapi");
-var cfenv = require("cfenv");
-var Boom = require('boom');
-var fs = require('fs');
-
-var request = require("request");
-
-
-
-
-// This application uses express as it's web server
-// for more info, see: http://expressjs.com
-var express = require('express');
 
 // cfenv provides access to your Cloud Foundry environment
 // for more info, see: https://www.npmjs.com/package/cfenv
 var cfenv = require('cfenv');
 
-// create a new express server
-/*var app = express();
+// Request is designed to be the simplest way possible to make http calls. 
+// It supports HTTPS and follows redirects by default. https://github.com/request/request
+var request = require("request");
 
-// serve the files out of ./public as our main files
-app.use(express.static(__dirname + '/public'));
-
-// get the app environment from Cloud Foundry
-var appEnv = cfenv.getAppEnv();
-
-// start server on the specified port and binding host
-app.listen(appEnv.port, appEnv.bind, function() {
-
-	// print a message when the server starts listening
-  console.log("server starting on " + appEnv.url);
-}); */
-
-
-var vcapLocal = null
-try {
-    vcapLocal = require("../StudentOverflow_VCAP_Services.json");
-} catch (e) {
-    console.error("VCAP configuration not found...!!");
-}
 
 // ------------------------------------------------------------------------------
+// Handler for recording server crash or unexpected shutdown
 process.on("exit", function(code) {
     console.log("exiting: code: " + code);
 });
@@ -54,7 +26,18 @@ process.on("uncaughtException", function(err) {
     process.exit(1);
 });
 
+
 // ------------------------------------------------------------------------------
+// Reading, Registering and initializing Environment variables and credentials
+
+var vcapLocal = null;
+
+try {
+    vcapLocal = require("../StudentOverflow_VCAP_Services.json");
+} catch (e) {
+    console.error("VCAP configuration not found...!!");
+}
+
 var appEnvOpts = vcapLocal ? {
     vcap: vcapLocal
 } : {};
@@ -62,6 +45,7 @@ var appEnvOpts = vcapLocal ? {
 var appEnv = cfenv.getAppEnv(appEnvOpts);
 
 console.log("Services: " + JSON.stringify(appEnv.services));
+
 var server = new hapi.Server();
 
 server.connection({
@@ -69,8 +53,8 @@ server.connection({
     port: appEnv.port
 });
 
-
-//Main page - Route
+//-----------------------------------------------------------------------------
+// Route: Server route to Main page of the application(index.html)
 server.route({
     method: "GET",
     path: "/{param*}",
@@ -87,15 +71,13 @@ server.start(function() {
     console.log("Student Overload Server Started!! --- " + appEnv.url);
 });
 
-console.log("Couldant Services: " + JSON.stringify(appEnv.services.cloudantNoSQLDB));
-
-//----------------
+//******************************************************************************
+// Server is started and running and below are 
+//******************************************************************************
 
 var db;
 
 var cloudant;
-
-var currentStatus, overallStatus;
 
 var dbCredentials = {
     dbName: 'cloud_db'
@@ -103,6 +85,9 @@ var dbCredentials = {
 
 initDBConnection();
 
+/**
+ * Initializes connection parameters for connecting to Cloudant Service
+ */
 function initDBConnection() {
 
     var serviceCreds = appEnv.getServiceCreds("Cloudant_SO");
@@ -131,10 +116,39 @@ function initDBConnection() {
     });
 
     db = cloudant.use(dbCredentials.dbName);
-
-
 }
 
+//-----------------------------------------------------------------------------
+// Route: Server route to insert events into Cloudant
+server.route({
+    method: "POST",
+    path: "/res/updateUserLocation/{uid},{locationid},{lon},{lat}",
+    handler: insertHandler
+});
+
+/**
+ * Inserts events from the GEOFENCE notifier into Cloudant
+ * @param {Object} request request object from client
+ * @param {Object} reply   reply message to client with successful insertion
+ */
+function insertHandler(request, reply) {
+
+    var uid = request.params.uid,
+        locationid = request.params.locationid,
+        lon = request.params.lon,
+        lat = request.params.lat;
+
+    insertIntoCloudant(uid, locationid, lon, lat, reply);
+}
+
+/**
+ * Function that performs cloudant DB operations
+ * @param   {Number}   uid        Unique User ID
+ * @param   {Number}   locationid Fence ID inside a University
+ * @param   {Number}   lon        Longitude
+ * @param   {Number}   lat        Latitude
+ * @param   {Object}   reply      Notifies status of insert operation into cloudant 
+ */
 function insertIntoCloudant(uid, locationid, lon, lat, reply) {
 
     console.log('Cloundant insert: ' + uid + ': ' + locationid);
@@ -172,27 +186,8 @@ function insertIntoCloudant(uid, locationid, lon, lat, reply) {
     });
 }
 
-
-// Route calls to insert in cloundant
-server.route({
-    method: "POST",
-    path: "/res/updateUserLocation/{uid},{locationid},{lon},{lat}",
-    handler: insertHandler
-});
-
-function insertHandler(request, reply) {
-
-    var uid = request.params.uid,
-        locationid = request.params.locationid,
-        lon = request.params.lon,
-        lat = request.params.lat;
-
-    insertIntoCloudant(uid, locationid, lon, lat, reply);
-
-}
-
-
-// Route calls to insert in cloundant
+//-----------------------------------------------------------------------------
+// Route: Server route to get locations and their current capacities
 server.route({
     method: "GET",
     path: "/res/requestCurrentInformation",
@@ -200,6 +195,10 @@ server.route({
 });
 
 
+/**Fetches current filling capacity of the fences defined in the university
+ * @param {Object} request request object from client
+ * @param {Object} reply   reply message to client with current crowd information
+ */
 function getCurrentInformation(req, reply) {
 
     var url = dbCredentials.url;
@@ -207,24 +206,30 @@ function getCurrentInformation(req, reply) {
     request(url + '/cloud_db/_design/map_reduce/_view/count_by_location?group_level=1', function(error, response, body) {
         if (!error && response.statusCode == 200) {
             console.log(body);
-            
-            currentStatus = JSON.parse(body);
-                      
+
+            var currentStatus = JSON.parse(body);
+
             reply(currentStatus);
-                        
+
         } else {
             console.log("Error in retreiving current status: response.statusCode: " + response.statusCode);
         }
     });
 }
 
-// Route calls to insert in cloundant
+//-----------------------------------------------------------------------------
+// Route: Server route to get locations and their overall capacities
 server.route({
     method: "GET",
     path: "/res/requestOverallInformation",
     handler: getOverallInformation
 });
 
+/**
+ * Fetches information about overall capacity and fence locations
+ * @param {Object} request request object from client
+ * @param {Object} reply   reply message to client with capacity information
+ */
 function getOverallInformation(request, reply) {
 
     db.get("000", {
@@ -238,6 +243,3 @@ function getOverallInformation(request, reply) {
         }
     });
 }
-
-//https://74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix.cloudant.com/cloud_db/_design/map_reduce/_view/count_by_location
-//https://74520cc5-c1d6-44bf-80f1-e507f648678d-bluemix.cloudant.com/cloud_db/_design/map_reduce/_view/count_by_location?group_level=1
