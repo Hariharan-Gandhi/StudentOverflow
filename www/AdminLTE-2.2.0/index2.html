@@ -574,8 +574,9 @@
 			rows = json.rows;
 			var current_capacity = 0;
 			for(i=0;i<rows.length;i++){
-				if(rows.key=="2"){
-					current_capacity = parseInt(rows.value);
+				console.log("rows key: " + rows[i].key);
+				if(rows[i].key=="2"){
+					current_capacity = parseInt(rows[i].value);
 					console.log("Current capacity: " + current_capacity);
 				}
 			}
