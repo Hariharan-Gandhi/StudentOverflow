@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<title></title>
+<script src="js/d3.v3.min.js" language="JavaScript"></script>
+<script src="js/liquidFillGauge.js" language="JavaScript"></script>
+
+<style>
+.liquidFillGaugeText {
+	font-family: Helvetica;
+	font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+	<!-- onclick="libCapacity.update(NewValue());" -->
+	<svg id="libCapacity" width="97%" height="250"></svg>
+
+	<script language="JavaScript">
+		var libCapacity = loadLiquidFillGauge("libCapacity", 0);
+		var FIXED_LOCATION_ID = 3;
+		
+		
+		function fetch_lib_load_from_server(){
+			d3.json("/res/capacities", function(error, json) {
+				if (error)
+					return console.warn(error);
+				var entries = json.entries;
+				var currentLoad = parseInt(entries[FIXED_LOCATION_ID].currentLoad);
+				var capacity = parseInt(entries[FIXED_LOCATION_ID].capacity);
+				/* We don't want percentages over 100, so we take the minimum*/
+				var percentage = Math.min(Math.ceil(currentLoad / capacity), 100);
+				libCapacity.update(percentage);
+			});
+		}
+
+		function timer_capacity() {
+			fetch_lib_load_from_server();
+		}
+
+		window.setInterval(timer_capacity, 9000);
+	</script>
+</body>
+</html>
