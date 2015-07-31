@@ -14,14 +14,14 @@ function Tester() {
 
 	
 	/* The url which listens to requests */
-	var url = "http://hariharan.mybluemix.net/updateUserLocation";
+	var url = "http://studentoverflow.mybluemix.net/res/updateUserLocation";
 
 	/* Define a container for generated uid's */
 	var uids = [];
 
 	this.fireRandomUserEvent = function() {
 		console.log("Firing random user event");
-		var uid = "12345-fdefe12";
+		var uid = "12345";
 
 		/* Push uid to container */
 		uids.push(uid);
@@ -33,12 +33,12 @@ function Tester() {
 		var latitude = getRandomArbitrary(min_latitude, max_latitude);
 		var locationid = getRandomInt(loc_min, loc_max);
 
-		var url_to_call = url + "?uid=" + uid + "?locationid=" + locationid
-				+ "?longitude=" + longitude + "?latitude=" + latitude;
+		var url_to_call = url + "?uid=" + uid + "&locationid=" + locationid
+				+ "&longitude=" + longitude + "&latitude=" + latitude;
 		console.log("Calling: " + url_to_call);
 		var test_url = "https://www.google.de";
 		$.ajax({
-			url : test_url,
+			url : url_to_call,
 			context : document.body,
 			success : function() {
 				$(this).addClass("done");
