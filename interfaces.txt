@@ -2,6 +2,12 @@
 # CAN STICK TO IT
 
 
-# --- UPDATING THE USER LOCATION ---
+# --- UPDATING THE USER LOCATION --- ( POST )
 We should use this for updating the database (this is sample data):
-http://studentoverflow.mybluemix.net/res/updateUserLocation?uid=123&locationid=1&longitude=5.232323&latitude=1.234567
+http://studentoverflow.mybluemix.net/res/updateUserLocation?uid=123,locationid=1,longitude=5.232323,latitude=1.234567
+
+# --- FETCHING CAPACITY FOR ALL LOCATIONS ( GET )
+http://http://studentoverflow.mybluemix.net/res/getLocationCapacities
+
+# --- FETCHING LIBRARY LOAD FACTOR FOR ALL LOCATIONS ( GET )
+http://studentoverflow.mybluemix.net/res/getLoadFactors
