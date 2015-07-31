@@ -1,0 +1,20 @@
+<html>
+<head>
+</head>
+<body>
+	<script src="js/jquery-2.1.4.min.js"></script>
+	<script src="js/tester.js"></script>
+
+	<script>
+		/* Initialize Hari-Tester*/
+		var tester = new Tester();
+		//tester.fireRandomUserEvent()
+		/* Update some user-data every 5 seconds*/
+		function timer() {
+			tester.fireRandomUserEvent();
+		}
+
+		window.setInterval(timer, 1000);
+	</script>
+</body>
+</html>
