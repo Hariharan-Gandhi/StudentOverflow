@@ -65,9 +65,14 @@
     </div>
 
     <div class="right" style="top: 50%">
-        <img src="images/url_qr_code.jpg" alt="QR-code" />
-
+        <div class="box-header with-border" onclick="$('#qr-code').toggle();">
+            <h3 style="color: white"><small>(click for) </small> QR CODE</h3>
+        </div>
+        <div class="box-body" style="display: none" id="qr-code">
+            <img src="images/url_qr_code.jpg" height="300px" width="300px" alt="QR-code"  />
+        </div>
     </div>
+    
     <!-- /.center -->
 
     <!-- jQuery 2.1.4 -->
