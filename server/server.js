@@ -60,7 +60,7 @@ server.route({
     path: "/{param*}",
     handler: {
         directory: {
-            path: "www"
+            path: "www/AdminLTE-2.2.0"
         }
     }
 });

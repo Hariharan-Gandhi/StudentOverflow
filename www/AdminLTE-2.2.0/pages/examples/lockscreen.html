@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
-    <title>AdminLTE 2 | Lockscreen</title>
+    <title>Student Overflow | Enter you name</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.4 -->
@@ -11,57 +12,67 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
     <link href="../../dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-
+    <link rel="icon" href="icon.png">
+    <link rel="stylesheet" href="../../../stylesheets/style.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
-  <body class="lockscreen">
+</head>
+
+<body>
     <!-- Automatic element centering -->
-    <div class="lockscreen-wrapper">
-      <div class="lockscreen-logo">
-        <a href="../../index2.html"><b>Admin</b>LTE</a>
-      </div>
-      <!-- User name -->
-      <div class="lockscreen-name">John Doe</div>
+    <div class="right">
 
-      <!-- START LOCK SCREEN ITEM -->
-      <div class="lockscreen-item">
-        <!-- lockscreen image -->
-        <div class="lockscreen-image">
-          <img src="../../dist/img/user1-128x128.jpg" alt="User Image" />
+        <div class="lockscreen-logo">
+            <b>Student Overflow</b>
         </div>
-        <!-- /.lockscreen-image -->
+        <!-- User name -->
 
-        <!-- lockscreen credentials (contains the form) -->
-        <form class="lockscreen-credentials">
-          <div class="input-group">
-            <input type="password" class="form-control" placeholder="password" />
-            <div class="input-group-btn">
-              <button class="btn"><i class="fa fa-arrow-right text-muted"></i></button>
+        <!-- START LOCK SCREEN ITEM -->
+        <div class="lockscreen-item">
+            <!-- lockscreen image -->
+            <div class="lockscreen-image">
+                <img src="../../../icon.png" alt="User Image" />
             </div>
-          </div>
-        </form><!-- /.lockscreen credentials -->
+            <!-- /.lockscreen-image -->
 
-      </div><!-- /.lockscreen-item -->
-      <div class="help-block text-center">
-        Enter your password to retrieve your session
-      </div>
-      <div class="text-center">
-        <a href="login.html">Or sign in as a different user</a>
-      </div>
-      <div class="lockscreen-footer text-center">
-        Copyright &copy; 2014-2015 <b><a href="http://almsaeedstudio.com" class="text-black">Almsaeed Studio</a></b><br/>
-        All rights reserved
-      </div>
-    </div><!-- /.center -->
+            <!-- lockscreen credentials (contains the form) -->
+            <form class="lockscreen-credentials">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="your name" />
+                    <div class="input-group-btn">
+                        <button class="btn"><i class="fa fa-arrow-right text-muted"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <!-- /.lockscreen credentials -->
+
+        </div>
+        <!-- /.lockscreen-item -->
+        <div class="help-block text-center">
+            <b>Enter your name to proceed</b>
+        </div>
+        <div class="text-center">
+            <a href="so_home.html">Or I am a nameless person</a>
+        </div>
+
+    </div>
+    <!-- /.center -->
 
     <!-- jQuery 2.1.4 -->
     <script src="../../plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
     <!-- Bootstrap 3.3.2 JS -->
     <script src="../../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-  </body>
+</body>
+<footer>
+    <div class="lockscreen-footer text-center"><small>
+        Built upon the Design from AdminLTE Copyright &copy; 2014-2015 <b><a href="http://almsaeedstudio.com" class="text-black">Almsaeed Studio</a></b>
+        All rights reserved</small>
+    </div>
+</footer>
+
 </html>

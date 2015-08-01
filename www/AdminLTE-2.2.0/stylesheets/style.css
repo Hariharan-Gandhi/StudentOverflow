@@ -53,7 +53,11 @@ h1 {
 .blue {
 	color: #00aed1;
 }
-
+footer {
+    position: absolute;
+    bottom: 0px;
+    left: 30%;
+}
 
 table {
 	table-layout: fixed;
@@ -82,4 +86,10 @@ pre {
 	padding: 0;
 	margin: 0;
 }
-
+.right {
+    position: absolute;
+    right: 10%;
+    top: 25%;
+    box-shadow: 5px 7px 5px 5px #000;
+    padding: 10px;
+}
