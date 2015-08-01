@@ -1,0 +1,41 @@
+<html>
+<body>
+<h1>Testingframework running</h1>
+Events:<br>
+<textarea rows="10" cols="100"> 
+</textarea><br>
+<button id="buttonAddUser" onClick="alert('clicked button1')">Add user</button>
+<button id="buttonRemoveUser" onClick="alert('clicked button2')">Remove User</button>
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/tester.js"></script>
+<script>
+/**
+ * Extracts parameters from a URL.
+ * 
+ * @returns A map containing URL-Get-Parameters
+ */
+function getUrlVars() {
+	var vars = {};
+	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+			function(m, key, value) {
+				vars[key] = value;
+			});
+	return vars;
+}
+
+var LOCATION_ID_STRING = "loc_3";
+var uuids_stack = [];
+
+var url_vars = getUrlVars();
+
+/* Get some stuff from the query parameters from the url*/
+if(urs_vars['LOCATION_ID_STRING']!=null){
+	LOCATION_ID_STRING = url_vars['LOCATION_ID_STRING'];
+	alert("Changed location_id_string to: " + LOCATION_ID_STRING);
+}
+
+
+
+</script>
+</body>
+</html>
