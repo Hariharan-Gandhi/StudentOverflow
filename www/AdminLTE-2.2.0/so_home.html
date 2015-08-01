@@ -261,8 +261,8 @@
 							<div class="box-body">
 								<div id="wrapperLibraryFill">
 									<div align="center" id="contentLibraryFill">
-										<span id="libraryFillText">Seats occupied: <span>300</span>
-											<br>Total number of seats: <span>300</span></span>
+										<span id="libraryFillText">Seats occupied: <span id="seats_occupied"></span>
+											<br>Total number of seats: <span id="total_seats"></span></span>
 									</div>
 									<div id="sidebarLibraryFill">
 										<svg id="libCapacity" width="200px" height="200px"></svg>
@@ -563,12 +563,13 @@
 			console.log("Capacities are loaded");
 			if (error)
 				return console.warn(error);
+			d3.select("#total_seats").text(json.loc_2.max_capacity);
 			capacity_loc_2 = parseInt(json.loc_2.max_capacity);
 			console.log("Capacity loc_2: " + capacity_loc_2);
 			name_loc_2 = json.loc_2.name;
 			console.log("Name loc_2: " + name_loc_2);
 			fetch_current_for_location();
-			window.setInterval(timer_updater, 9000);
+			window.setInterval(timer_updater, 2000);
 		}
 
 		function current_loaded(error, json) {
@@ -581,6 +582,7 @@
 				console.log("rows key: " + rows[i].key);
 				if (rows[i].key == "2") {
 					current_capacity = parseInt(rows[i].value);
+					d3.select("#seats_occupied").text(rows[i].value);
 					console.log("Current capacity: " + current_capacity);
 				}
 			}
