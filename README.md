@@ -1,3 +1,7 @@
+The app helps users (students and university members) to figure out "How occupied a particular building(say, Library/Mensa) is?" It provides a Web and Mobile application to display current seat availability vs capacity, with attractive and dynamic charts. While doing so, it also provides a twitter chat room for each location, facilitating users to discuss events happening at that location, like "Hey, good food at Mensa today!! Don't miss!!".
+
+Technologies Used: IBM Bluemix Cloud, NodeJS Server, Cloudant NoSQL Database, Android Geofensing with foreground service, UI - Web & Mobile friendly AdminLTE Bootstrap, D3js.
+
 **StudentOverflow**
 *Architecture Diagram*
 
