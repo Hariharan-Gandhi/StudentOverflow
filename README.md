@@ -7,9 +7,7 @@ The app helps users (students and university members) to figure out "How occupie
 `IBM Bluemix Cloud, NodeJS Server, Cloudant NoSQL Database, Android Geofensing with foreground service, UI - Web & Mobile friendly AdminLTE Bootstrap, D3js`.
 
 ##IBM Bluemix Cloud:
-StudentOverflow is hosted on IBM Bluemix cloud: http://studentoverflow.mybluemix.net/
-
-###[Detailed Documentation](http://studentoverflow.mybluemix.net/so_documentation.html)
+StudentOverflow is hosted on IBM Bluemix cloud.
 
 ##Event:
 ###['Hackathon RheinMain'](http://www.hackathon-rhein-main.de/2015/08/03/es-wurde-fleissig-gehackt-auf-dem-1-hackathon-rheinmain/#content) - EduTech & Science Applications
